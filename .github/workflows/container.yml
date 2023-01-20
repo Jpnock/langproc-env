@@ -19,6 +19,6 @@ jobs:
         with:
           push: true
           registry: gchr.io
-          tags: ghcr.io/iac-reshaping/compiler-testing/builder:v1.0.0,ghcr.io/iac-reshaping/compiler-testing/builder:latest
+          tags: ghcr.io/jpnock/langproc-env/builder:v1.0.0,ghcr.io/jpnock/langproc-env/builder:latest
           secrets: |
             GIT_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}
