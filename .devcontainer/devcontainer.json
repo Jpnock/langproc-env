@@ -1,0 +1,15 @@
+{
+    "image": "ghcr.io/jpnock/langproc-env/builder:latest",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools-extension-pack",
+                "eamodio.gitlens",
+                "ms-vsliveshare.vsliveshare",
+                "ms-vscode.makefile-tools",
+                "ms-python.python",
+                "daohong-emilio.yash"
+            ]
+        }
+    }
+}
