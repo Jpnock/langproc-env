@@ -19,7 +19,7 @@ RUN apt-get install -y \
 
 # Install RISC-V Toolchain
 WORKDIR /tmp
-RUN curl --output riscv-gnu-toolchain.tar.gz -L "https://github.com/EIE2-IAC-Labs/Lab0-devtools/releases/download/v1.0.0/riscv-gnu-toolchain-2022-09-21-ubuntu-22.04.tar.gz"
+RUN curl --output riscv-gnu-toolchain.tar.gz -L "https://github.com/iac-reshaping/compiler-test/releases/download/v1.0.0/riscv-gnu-toolchain-2022-09-21-ubuntu-22.04.tar.gz"
 RUN rm -rf /opt/riscv
 RUN tar -xzf riscv-gnu-toolchain.tar.gz --directory /opt
 ENV PATH="/opt/riscv/bin:${PATH}"
