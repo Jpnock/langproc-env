@@ -29,7 +29,7 @@ jobs:
           push: true
           builder: ${{ steps.buildx.outputs.name }}
           registry: gchr.io
-          tags: ghcr.io/jpnock/langproc-env/builder:v1.0.0,ghcr.io/jpnock/langproc-env/builder:latest
+          tags: ghcr.io/jpnock/langproc-env/langproc-env:v1.0.0,ghcr.io/jpnock/langproc-env/langproc-env:latest
           platforms: linux/amd64,linux/arm64
           secrets: |
             GIT_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}
