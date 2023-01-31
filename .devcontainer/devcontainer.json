@@ -1,5 +1,5 @@
 {
-    "image": "ghcr.io/jpnock/langproc-env/builder:latest",
+    "image": "ghcr.io/jpnock/langproc-env/langproc-env:latest",
     "customizations": {
         "vscode": {
             "extensions": [
