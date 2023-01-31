@@ -15,7 +15,9 @@ RUN apt-get install -y \
     build-essential \
     ca-certificates \
     curl \
-    device-tree-compiler
+    device-tree-compiler \
+    gdb \
+    dos2unix
 
 # Install RISC-V Toolchain
 WORKDIR /tmp
