@@ -9,7 +9,7 @@ jobs:
   Integration_test:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/jpnock/langproc-env/builder:v1.0.0
+      image: ghcr.io/jpnock/langproc-env/langproc-env:v1.0.0
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
