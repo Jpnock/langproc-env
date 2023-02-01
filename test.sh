@@ -52,7 +52,7 @@ for DRIVER in compiler_tests/**/*_driver.c; do
         echo -e "\t> Pass"
         let PASSING++
     else
-        echo -e "\t> Fail: simulation did not exit with exit code 0"
+        echo -e "\t> Fail: simulation did not exit with exit-code 0"
     fi
 done
 
