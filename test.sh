@@ -16,6 +16,16 @@ mkdir -p bin/output
 TOTAL=0
 PASSING=0
 
+J_UNIT_OUTPUT_FILE="./bin/junit_results.xml"
+printf '%s\n' '<?xml version="1.0" encoding="UTF-8"?>' > "${J_UNIT_OUTPUT_FILE}"
+printf '%s\n' '<testsuite name="Integration test">' >> "${J_UNIT_OUTPUT_FILE}"
+
+fail_testcase() {
+    echo -e "\t> ${1}"
+    printf '%s\n' "<error type=\"error\" message=\"${1}\">${1}</error>" >> "${J_UNIT_OUTPUT_FILE}"
+    printf '%s\n' "</testcase>" >> "${J_UNIT_OUTPUT_FILE}"
+}
+
 for DRIVER in compiler_tests/**/*_driver.c; do
     let TOTAL++
 
@@ -24,6 +34,7 @@ for DRIVER in compiler_tests/**/*_driver.c; do
     LOG_PATH="./bin/output/${LOG_PATH%.c}"
 
     echo "${TO_ASSEMBLE}"
+    printf '%s\n' "<testcase name=\"${TO_ASSEMBLE}\">" >> "${J_UNIT_OUTPUT_FILE}"
 
     OUT="${LOG_PATH}"
     rm -f "${OUT}.s"
@@ -31,19 +42,19 @@ for DRIVER in compiler_tests/**/*_driver.c; do
     rm -f "${OUT}"
     ./bin/c_compiler -S "${TO_ASSEMBLE}" -o "${OUT}.s" 2> "${LOG_PATH}.compiler.stderr.log" > "${LOG_PATH}.compiler.stdout.log"
     if [ $? -ne 0 ]; then
-        echo "\t> Fail: see ${LOG_PATH}.compiler.stderr.log and ${LOG_PATH}.compiler.stdout.log"
+        fail_testcase "Fail: see ${LOG_PATH}.compiler.stderr.log and ${LOG_PATH}.compiler.stdout.log"
         continue
     fi
 
     riscv64-unknown-elf-gcc -march=rv32imfd -mabi=ilp32d -o "${OUT}.o" -c "${OUT}.s" 2> "${LOG_PATH}.assembler.stderr.log" > "${LOG_PATH}.assembler.stdout.log"
     if [ $? -ne 0 ]; then
-        echo -e "\t> Fail: see ${LOG_PATH}.assembler.stderr.log and ${LOG_PATH}.assembler.stdout.log"
+        fail_testcase "Fail: see ${LOG_PATH}.assembler.stderr.log and ${LOG_PATH}.assembler.stdout.log"
         continue
     fi
 
     riscv64-unknown-elf-gcc -march=rv32imfd -mabi=ilp32d -static -o "${OUT}" "${OUT}.o" "${DRIVER}" 2> "${LOG_PATH}.linker.stderr.log" > "${LOG_PATH}.linker.stdout.log"
     if [ $? -ne 0 ]; then
-        echo -e "\t> Fail: see ${LOG_PATH}.linker.stderr.log and ${LOG_PATH}.linker.stdout.log"
+        fail_testcase "Fail: see ${LOG_PATH}.linker.stderr.log and ${LOG_PATH}.linker.stdout.log"
         continue
     fi
 
@@ -51,9 +62,12 @@ for DRIVER in compiler_tests/**/*_driver.c; do
     if [ $? -eq 0 ]; then
         echo -e "\t> Pass"
         let PASSING++
+
+        printf '%s\n' "</testcase>" >> "${J_UNIT_OUTPUT_FILE}"
     else
-        echo -e "\t> Fail: simulation did not exit with exit-code 0"
+        fail_testcase "Fail: simulation did not exit with exit-code 0"
     fi
 done
 
 printf "\nPassing %d/%d tests\n" "${PASSING}" "${TOTAL}"
+printf '%s\n' '</testsuite>' >> "${J_UNIT_OUTPUT_FILE}"
