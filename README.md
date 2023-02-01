@@ -34,8 +34,9 @@ It is recommended that you use VS Code as this has good support for working insi
 
 1) Install [Docker](https://www.docker.com/products/docker-desktop/). If you are on Apple M1/M2, make sure to choose the Apple Silicon download.
 2) Open a terminal to the folder containing this README.md file
-3) Inside that terminal, run `docker run --rm -it -v "${PWD}:/code" -w "/code" --name "compilers_env" ghcr.io/jpnock/langproc-env/langproc-env:latest`
-4) You should now be inside the LangProc tools container, where you can run `./test.sh` inside the `/code` folder to check that your tools are working correctly. Note that the folder containing this README.md, as well as any subdirectories, are mounted inside this container under the path `/code`. The output of running the command should look as follows:
+3) Inside that terminal, run `docker build -t compilers_image .`
+4) Once that completes, run `docker run --rm -it -v "${PWD}:/code" -w "/code" --name "compilers_env" compilers_image`
+5) You should now be inside the LangProc tools container, where you can run `./test.sh` inside the `/code` folder to check that your tools are working correctly. Note that the folder containing this README.md, as well as any subdirectories, are mounted inside this container under the path `/code`. The output of running the command should look as follows:
     ```console
     root@ad12f00322f6:/code# ./toolchain_test.sh
 
