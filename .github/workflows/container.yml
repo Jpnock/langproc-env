@@ -28,7 +28,7 @@ jobs:
         with:
           push: true
           builder: ${{ steps.buildx.outputs.name }}
-          registry: gchr.io
+          registry: ghcr.io
           tags: ghcr.io/jpnock/langproc-env/langproc-env:v1.0.0,ghcr.io/jpnock/langproc-env/langproc-env:latest
           platforms: linux/amd64,linux/arm64
           secrets: |
